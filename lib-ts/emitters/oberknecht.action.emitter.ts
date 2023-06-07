@@ -11,6 +11,7 @@ export class oberknechtActionEmitter {
   #alwaysResolve = ["PRIVMSG"];
   #alwaysIgnore = ["PRIVMSG"];
   _options: oberknechtActionEmitterOptions;
+  num = 0;
 
   constructor(options: oberknechtActionEmitterOptions) {
     i.actionEmitterData[this.symbol] = {};
@@ -66,8 +67,9 @@ export class oberknechtActionEmitter {
         return resolve();
       };
 
+      const itemsym = `${this.num++}`;
       const item = {
-        sym: String(Symbol()),
+        sym: itemsym,
         eventName: eventName,
         expectedEventName: expectedEventName ?? (this._options.useExpectedEventNames ? expectedEventName_(eventName) : undefined),
         fn: fn,
@@ -83,15 +85,17 @@ export class oberknechtActionEmitter {
 
       i.actionEmitterData[this.symbol].queue.push(item);
 
-      if (!i.actionEmitterData[this.symbol].isWorkingHard) this.next(item.sym);
+      if (!i.actionEmitterData[this.symbol].isWorkingHard) this.next(itemsym);
     });
   };
 
   next = (sym: string) => {
     i.actionEmitterData[this.symbol].isWorkingHard = true;
-    const item = i.actionEmitterData[this.symbol].queue.filter((v, i) => {
+    let item = i.actionEmitterData[this.symbol].queue.filter(v => {
       return v.sym === sym;
     })[0];
+
+    if (!item) return console.error(Error("EROAIOAIOSDAOERRROR ITEM NOT FOUND BABYRAGE"));
 
     item.inQueue = true;
     item.fn(item.args);

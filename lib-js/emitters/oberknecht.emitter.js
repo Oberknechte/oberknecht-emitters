@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.oberknechtEmitter = void 0;
+const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
 class oberknechtEmitter {
     #symbol = Symbol();
-    get symbol() { return this.#symbol; }
+    get symbol() { return String(this.#symbol); }
     ;
     constructor() {
         __1.i.emitterData[this.symbol] = {
@@ -13,24 +14,23 @@ class oberknechtEmitter {
     }
     ;
     on = (eventName, callback) => {
-        if (!Array.isArray(eventName))
-            eventName = [eventName];
-        eventName.forEach((eventName2) => {
-            if (!__1.i.emitterData[this.symbol].events[eventName2]) {
+        let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
+        eventName_.forEach((eventName2) => {
+            if (!__1.i.emitterData[this.symbol].events[eventName2])
                 __1.i.emitterData[this.symbol].events[eventName2] = [];
-            }
             __1.i.emitterData[this.symbol].events[eventName2].push(callback);
         });
     };
     addListener = this.on;
     once = (eventName, callback) => {
-        if (!Array.isArray(eventName))
-            eventName = [eventName];
+        let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
         const onceCallback = (args) => {
-            this.removeListener(eventName, onceCallback);
+            eventName_.forEach(a => {
+                this.removeListener(a, onceCallback);
+            });
             callback(args);
         };
-        this.on(eventName, onceCallback);
+        this.on(eventName_, onceCallback);
     };
     removeListener = (eventName, callback) => {
         if (!__1.i.emitterData[this.symbol].events[eventName])
@@ -46,10 +46,9 @@ class oberknechtEmitter {
         return __1.i.emitterData[this.symbol].events[eventName] || [];
     };
     emit = (eventName, args) => {
-        if (!Array.isArray(eventName))
-            eventName = [eventName];
-        eventName.forEach((eventName2) => {
-            this.getListeners(eventName2).forEach((callback) => {
+        let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
+        eventName_.forEach(a => {
+            this.getListeners(a).forEach((callback) => {
                 callback(args ?? undefined);
             });
             this.getListeners("_all").forEach((callback) => {

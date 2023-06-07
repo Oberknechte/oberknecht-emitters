@@ -5,6 +5,7 @@ export declare class oberknechtActionEmitter {
     defaultdelay: number;
     timeout: number;
     _options: oberknechtActionEmitterOptions;
+    num: number;
     constructor(options: oberknechtActionEmitterOptions);
     emit: (eventName: string, args: any, returntype?: number) => any;
     emitresolve: (eventName: string, args: any) => any;

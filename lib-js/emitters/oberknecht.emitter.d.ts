@@ -1,13 +1,13 @@
 export declare class oberknechtEmitter {
     #private;
-    get symbol(): symbol;
+    get symbol(): string;
     constructor();
-    on: (eventName: any, callback: any) => void;
-    addListener: (eventName: any, callback: any) => void;
-    once: (eventName: any, callback: any) => void;
-    removeListener: (eventName: any, callback: any) => void;
-    removeAllListeners: (eventName: any) => void;
-    getListeners: (eventName: any) => any;
-    emit: (eventName: any, args: any) => void;
-    emitError: (eventName: any, error: any) => void;
+    on: (eventName: string | string[], callback: Function) => void;
+    addListener: (eventName: string | string[], callback: Function) => void;
+    once: (eventName: string | string[], callback: Function) => void;
+    removeListener: (eventName: string, callback: Function) => void;
+    removeAllListeners: (eventName: string) => void;
+    getListeners: (eventName: string) => any;
+    emit: (eventName: string | string[], args: any) => void;
+    emitError: (eventName: string | string[], error: any) => void;
 }
