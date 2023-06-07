@@ -1,0 +1,27 @@
+{
+  "name": "oberknecht-emitters",
+  "version": "1.0.0",
+  "description": "",
+  "main": "export",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oberknechte/oberknecht-emitters.git"
+  },
+  "author": "Jubewe",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/oberknechte/oberknecht-emitters/issues"
+  },
+  "homepage": "https://github.com/oberknechte/oberknecht-emitters#readme",
+  "dependencies": {
+    "@types/node": "^20.2.5",
+    "oberknecht-utils": ">=0.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.0-dev.20230607"
+  }
+}
