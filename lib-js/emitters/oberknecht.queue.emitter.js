@@ -1,10 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.oberknechtQueueEmitter = void 0;
+const __1 = require("..");
+let clientSymNum = 0;
 class oberknechtQueueEmitter {
-    events = {};
+    #symbol = `oberknechtQueueEmitter-${clientSymNum++}`;
+    get symbol() { return this.#symbol; }
+    ;
+    get events() { return __1.i.queueEmitterData[this.symbol]; }
+    ;
     constructor() {
-        this.events = {};
+        __1.i.queueEmitterData[this.#symbol] = {};
     }
     ;
     once = (eventName, arg) => {

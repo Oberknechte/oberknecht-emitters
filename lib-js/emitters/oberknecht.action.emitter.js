@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.oberknechtActionEmitter = void 0;
 const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
+let clientSymNum = 0;
 class oberknechtActionEmitter {
-    #symbol = Symbol();
-    get symbol() { return String(this.#symbol); }
+    #symbol = `oberknechtActionEmitter-${clientSymNum++}`;
+    get symbol() { return this.#symbol; }
     ;
     defaultdelay = 300;
     timeout = 3000;

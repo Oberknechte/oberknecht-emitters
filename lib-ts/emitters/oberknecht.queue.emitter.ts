@@ -1,8 +1,13 @@
+import { i } from "..";
+let clientSymNum = 0;
+
 export class oberknechtQueueEmitter {
-    events = {};
+    readonly #symbol: string = `oberknechtQueueEmitter-${clientSymNum++}`;
+    get symbol() { return this.#symbol };
+    get events() { return i.queueEmitterData[this.symbol] };
 
     constructor() {
-        this.events = {};
+        i.queueEmitterData[this.#symbol] = {};
     };
 
     once = (eventName: string, arg: any) => {

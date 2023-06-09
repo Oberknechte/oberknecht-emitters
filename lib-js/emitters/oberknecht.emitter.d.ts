@@ -10,4 +10,5 @@ export declare class oberknechtEmitter {
     getListeners: (eventName: string) => any;
     emit: (eventName: string | string[], args: any) => void;
     emitError: (eventName: string | string[], error: any) => void;
+    destroy: () => void;
 }

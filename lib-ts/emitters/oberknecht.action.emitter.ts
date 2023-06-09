@@ -1,10 +1,11 @@
 import { expectedEventName as expectedEventName_ } from "oberknecht-utils";
 import { oberknechtActionEmitterOptions } from "../types/oberknecht.action.emitter.options";
 import { i } from "..";
+let clientSymNum = 0;
 
 export class oberknechtActionEmitter {
-  #symbol = Symbol();
-  get symbol() { return String(this.#symbol) };
+  #symbol: string = `oberknechtActionEmitter-${clientSymNum++}`;
+  get symbol() { return this.#symbol };
 
   defaultdelay = 300;
   timeout = 3000;

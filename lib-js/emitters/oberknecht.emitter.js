@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.oberknechtEmitter = void 0;
 const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
+let clientSymNum = 0;
 class oberknechtEmitter {
-    #symbol = Symbol();
-    get symbol() { return String(this.#symbol); }
+    #symbol = `oberknechtEmitter-${clientSymNum++}`;
+    get symbol() { return this.#symbol; }
     ;
     constructor() {
         __1.i.emitterData[this.symbol] = {
@@ -70,6 +71,9 @@ class oberknechtEmitter {
             console.error(Error(`Oida 2`, { "cause": error }));
         }
         ;
+    };
+    destroy = () => {
+        delete __1.i.emitterData[this.symbol];
     };
 }
 exports.oberknechtEmitter = oberknechtEmitter;

@@ -1,9 +1,10 @@
 import { convertToArray } from "oberknecht-utils";
 import { i } from "..";
+let clientSymNum = 0;
 
 export class oberknechtEmitter {
-  #symbol = Symbol();
-  get symbol() { return String(this.#symbol) };
+  #symbol: string = `oberknechtEmitter-${clientSymNum++}`;
+  get symbol() { return this.#symbol };
 
   constructor() {
     i.emitterData[this.symbol] = {
@@ -78,5 +79,9 @@ export class oberknechtEmitter {
     } catch (e) {
       console.error(Error(`Oida 2`, { "cause": error }));
     };
+  };
+
+  destroy = () => {
+    delete i.emitterData[this.symbol];
   };
 };

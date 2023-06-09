@@ -4,6 +4,7 @@ exports.i = void 0;
 class i {
     static emitterData = {};
     static actionEmitterData = {};
+    static queueEmitterData = {};
 }
 exports.i = i;
 ;
