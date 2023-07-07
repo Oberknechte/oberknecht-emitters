@@ -53,9 +53,12 @@ class oberknechtEmitter {
     };
     emit = (eventName, args) => {
         let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
-        [...eventName_, "_all"].forEach((a) => {
+        let eventNames = [...eventName_, "_all"];
+        eventNames.forEach((a) => {
             this.getListeners(a).forEach((callback) => {
-                if (this._options.withNames)
+                if (this._options.withAllNames)
+                    callback([a, ...eventNames.filter((b) => a !== b)], args ?? undefined);
+                else if (this._options.withNames)
                     callback(a, args ?? undefined);
                 else
                     callback(args ?? undefined);

@@ -68,10 +68,16 @@ export class oberknechtEmitter {
 
   emit = (eventName: string | string[], args: any) => {
     let eventName_ = convertToArray(eventName);
+    let eventNames = [...eventName_, "_all"];
 
-    [...eventName_, "_all"].forEach((a) => {
+    eventNames.forEach((a) => {
       this.getListeners(a).forEach((callback: Function) => {
-        if (this._options.withNames) callback(a, args ?? undefined);
+        if (this._options.withAllNames)
+          callback(
+            [a, ...eventNames.filter((b) => a !== b)],
+            args ?? undefined
+          );
+        else if (this._options.withNames) callback(a, args ?? undefined);
         else callback(args ?? undefined);
       });
     });
