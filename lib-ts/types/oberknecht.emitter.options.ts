@@ -1,4 +1,4 @@
 export type oberknechtEmitterOptions = {
-  withNames?: boolean;
-  withAllNames?: boolean;
+  withNames?: boolean | string[];
+  withAllNames?: boolean | string[];
 };

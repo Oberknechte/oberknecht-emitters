@@ -1,4 +1,4 @@
-import { convertToArray, returnErr } from "oberknecht-utils";
+import { convertToArray, extendedTypeof, returnErr } from "oberknecht-utils";
 import { i } from "..";
 import { oberknechtEmitterOptions } from "../types/oberknecht.emitter.options";
 let clientSymNum = 0;
@@ -72,12 +72,25 @@ export class oberknechtEmitter {
 
     eventNames.forEach((a) => {
       this.getListeners(a).forEach((callback: Function) => {
-        if (this._options.withAllNames)
+        let withNames = this._options.withNames;
+        let withAllNames = this._options.withAllNames;
+
+        if (
+          withAllNames &&
+          (withAllNames === true ||
+            (extendedTypeof(withAllNames) === "array" &&
+              withAllNames.includes(a)))
+        )
           callback(
             [a, ...eventNames.filter((b) => a !== b)],
             args ?? undefined
           );
-        else if (this._options.withNames) callback(a, args ?? undefined);
+        else if (
+          withNames &&
+          (withNames === true ||
+            (extendedTypeof(withNames) === "array" && withNames.includes(a)))
+        )
+          callback(a, args ?? undefined);
         else callback(args ?? undefined);
       });
     });
