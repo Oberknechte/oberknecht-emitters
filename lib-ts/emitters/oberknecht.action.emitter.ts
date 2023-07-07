@@ -4,7 +4,7 @@ import { i } from "..";
 let clientSymNum = 0;
 
 export class oberknechtActionEmitter {
-  #symbol: string = `oberknechtActionEmitter-${clientSymNum++}`;
+  readonly #symbol: string = `oberknechtActionEmitter-${clientSymNum++}`;
   get symbol() { return this.#symbol };
 
   defaultdelay = 300;
