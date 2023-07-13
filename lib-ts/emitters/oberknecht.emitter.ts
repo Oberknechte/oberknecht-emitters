@@ -13,7 +13,7 @@ export class oberknechtEmitter {
     return i.emitterData[this.symbol]._options;
   }
 
-  constructor(options: oberknechtEmitterOptions) {
+  constructor(options?: oberknechtEmitterOptions) {
     let _options = options ?? {};
     i.emitterData[this.symbol] = {
       events: {},

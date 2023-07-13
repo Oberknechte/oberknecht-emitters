@@ -1,6 +1,6 @@
 {
   "name": "oberknecht-emitters",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "export",
   "scripts": {
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/oberknechte/oberknecht-emitters#readme",
   "dependencies": {
     "@types/node": "^20.2.5",
-    "oberknecht-utils": "^1.3.7"
+    "oberknecht-utils": "^1.3.9"
   },
   "devDependencies": {
     "typescript": "^5.1.6"
