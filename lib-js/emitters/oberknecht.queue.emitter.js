@@ -5,14 +5,15 @@ const __1 = require("..");
 let clientSymNum = 0;
 class oberknechtQueueEmitter {
     #symbol = `oberknechtQueueEmitter-${clientSymNum++}`;
-    get symbol() { return this.#symbol; }
-    ;
-    get events() { return __1.i.queueEmitterData[this.symbol]; }
-    ;
-    constructor() {
-        __1.i.queueEmitterData[this.#symbol] = {};
+    get symbol() {
+        return this.#symbol;
     }
-    ;
+    get events() {
+        return __1.i.queueEmitterData[this.symbol];
+    }
+    constructor() {
+        __1.i.queueEmitterData[this.symbol] = {};
+    }
     once = (eventName, arg) => {
         return new Promise((resolve, reject) => {
             if (!this.events[eventName])
@@ -32,13 +33,12 @@ class oberknechtQueueEmitter {
         });
     };
     emitResolve = (eventName, arg, resp) => {
-        const o = (this.events[eventName] ?? {});
-        o[Object.keys(o).filter(a => (!(arg ?? undefined) || (o[a].arg && o[a].arg === arg)))[0]]?.resolve(resp);
+        const o = this.events[eventName] ?? {};
+        o[Object.keys(o).filter((a) => !(arg ?? undefined) || (o[a].arg && o[a].arg === arg))[0]]?.resolve(resp);
     };
     emitReject = async (eventName, arg, e) => {
-        let o = (this.events[eventName] ?? {});
-        o[Object.keys(o).filter(a => (!(arg ?? undefined) || (o[a].arg && o[a].arg === arg)))[0]]?.reject(e);
+        let o = this.events[eventName] ?? {};
+        o[Object.keys(o).filter((a) => !(arg ?? undefined) || (o[a].arg && o[a].arg === arg))[0]]?.reject(e);
     };
 }
 exports.oberknechtQueueEmitter = oberknechtQueueEmitter;
-;

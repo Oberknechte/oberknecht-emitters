@@ -1,16 +1,26 @@
-import { convertToArray, extendedTypeof, returnErr } from "oberknecht-utils";
+import {
+  addKeysToObject,
+  convertToArray,
+  extendedTypeof,
+  getKeyFromObject,
+  returnErr,
+} from "oberknecht-utils";
 import { i } from "..";
 import { oberknechtEmitterOptions } from "../types/oberknecht.emitter.options";
-let clientSymNum = 0;
+let symNum = 0;
 
 export class oberknechtEmitter {
-  readonly #symbol: string = `oberknechtEmitter-${clientSymNum++}`;
+  readonly #symbol: string = `oberknechtEmitter-${symNum++}`;
   get symbol() {
     return this.#symbol;
   }
 
   get _options(): oberknechtEmitterOptions {
-    return i.emitterData[this.symbol]._options;
+    return getKeyFromObject(i.emitterData, [this.symbol, "_options"]) ?? {};
+  }
+
+  set _options(options) {
+    addKeysToObject(i.emitterData, [this.symbol, "_options"], options);
   }
 
   constructor(options?: oberknechtEmitterOptions) {

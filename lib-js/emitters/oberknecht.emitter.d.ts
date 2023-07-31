@@ -3,6 +3,7 @@ export declare class oberknechtEmitter {
     #private;
     get symbol(): string;
     get _options(): oberknechtEmitterOptions;
+    set _options(options: oberknechtEmitterOptions);
     constructor(options?: oberknechtEmitterOptions);
     on: (eventName: string | string[], callback: Function) => void;
     addListener: (eventName: string | string[], callback: Function) => void;

@@ -3,51 +3,60 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.oberknechtActionEmitter = void 0;
 const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
-let clientSymNum = 0;
+let symNum = 0;
 class oberknechtActionEmitter {
-    #symbol = `oberknechtActionEmitter-${clientSymNum++}`;
-    get symbol() { return this.#symbol; }
-    ;
+    #symbol = `oberknechtActionEmitter-${symNum++}`;
+    get symbol() {
+        return this.#symbol;
+    }
     defaultdelay = 300;
     timeout = 3000;
     #alwaysResolve = ["PRIVMSG"];
     #alwaysIgnore = ["PRIVMSG"];
-    _options;
+    get _options() {
+        return ((0, oberknecht_utils_1.getKeyFromObject)(__1.i.actionEmitterData, [this.symbol, "_options"]) ?? {});
+    }
+    set _options(options) {
+        (0, oberknecht_utils_1.addKeysToObject)(__1.i.actionEmitterData, [this.symbol, "_options"], options);
+    }
     num = 0;
     constructor(options) {
         __1.i.actionEmitterData[this.symbol] = {};
         __1.i.actionEmitterData[this.symbol].queue = [];
         __1.i.actionEmitterData[this.symbol].isWorkingHard = false;
-        let _options = (options ?? {});
+        let _options = options ?? {};
         __1.i.actionEmitterData[this.symbol]._options = this._options = _options;
     }
-    ;
     emit = (eventName, args, returntype) => {
         if (__1.i.actionEmitterData[this.symbol].queue.length === 0)
             return;
         if (this.#alwaysIgnore.includes(eventName))
             return;
         let events = __1.i.actionEmitterData[this.symbol].queue.filter((e) => {
-            return (e.inQueue && !e.isDone && !e.timedOut && (e.expectedEventName ?? e.eventName).toUpperCase() === eventName);
+            return (e.inQueue &&
+                !e.isDone &&
+                !e.timedOut &&
+                (e.expectedEventName ?? e.eventName).toUpperCase() === eventName);
         });
         let event = events[0];
         if (!event) {
             if (__1.i.actionEmitterData[this.symbol].queue.filter((e) => {
-                return (!e.isDone && e.inQueue && !e.timedOut);
+                return !e.isDone && e.inQueue && !e.timedOut;
             }).length === 0) {
                 __1.i.actionEmitterData[this.symbol].queue = [];
             }
-            ;
             return;
         }
         event.inQueue = false;
         event.isDone = true;
         clearTimeout(event.to);
-        returntype = (!(returntype ?? undefined) ? 1 : returntype);
+        returntype = !(returntype ?? undefined) ? 1 : returntype;
         switch (returntype) {
             case 1:
-            default: return event.resolve(args);
-            case 2: return event.reject(args);
+            default:
+                return event.resolve(args);
+            case 2:
+                return event.reject(args);
         }
     };
     emitresolve = (eventName, args) => {
@@ -62,12 +71,14 @@ class oberknechtActionEmitter {
                 fn(args);
                 return resolve();
             }
-            ;
             const itemsym = `${this.num++}`;
             const item = {
                 sym: itemsym,
                 eventName: eventName,
-                expectedEventName: expectedEventName ?? (this._options.useExpectedEventNames ? (0, oberknecht_utils_1.expectedEventName)(eventName) : undefined),
+                expectedEventName: expectedEventName ??
+                    (this._options.useExpectedEventNames
+                        ? (0, oberknecht_utils_1.expectedEventName)(eventName)
+                        : undefined),
                 fn: fn,
                 resolve: resolve,
                 reject: reject,
@@ -85,7 +96,7 @@ class oberknechtActionEmitter {
     };
     next = (sym) => {
         __1.i.actionEmitterData[this.symbol].isWorkingHard = true;
-        let item = __1.i.actionEmitterData[this.symbol].queue.filter(v => {
+        let item = __1.i.actionEmitterData[this.symbol].queue.filter((v) => {
             return v.sym === sym;
         })[0];
         if (!item)
@@ -97,16 +108,16 @@ class oberknechtActionEmitter {
             return item.reject(Error(`action timed out\n${JSON.stringify(item)}`));
         }, this.timeout);
         let queue = __1.i.actionEmitterData[this.symbol].queue;
-        const next = queue.indexOf(item) > -1 && queue[queue.indexOf(item) + 1] ? queue[queue.indexOf(item) + 1] : undefined;
+        const next = queue.indexOf(item) > -1 && queue[queue.indexOf(item) + 1]
+            ? queue[queue.indexOf(item) + 1]
+            : undefined;
         if (!next) {
             __1.i.actionEmitterData[this.symbol].isWorkingHard = false;
             return;
         }
-        ;
         setTimeout(() => {
             this.next(next.sym);
-        }, (next.delay ?? this.defaultdelay));
+        }, next.delay ?? this.defaultdelay);
     };
 }
 exports.oberknechtActionEmitter = oberknechtActionEmitter;
-;

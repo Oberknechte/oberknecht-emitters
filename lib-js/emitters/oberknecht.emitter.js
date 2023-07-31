@@ -3,14 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.oberknechtEmitter = void 0;
 const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
-let clientSymNum = 0;
+let symNum = 0;
 class oberknechtEmitter {
-    #symbol = `oberknechtEmitter-${clientSymNum++}`;
+    #symbol = `oberknechtEmitter-${symNum++}`;
     get symbol() {
         return this.#symbol;
     }
     get _options() {
-        return __1.i.emitterData[this.symbol]._options;
+        return (0, oberknecht_utils_1.getKeyFromObject)(__1.i.emitterData, [this.symbol, "_options"]) ?? {};
+    }
+    set _options(options) {
+        (0, oberknecht_utils_1.addKeysToObject)(__1.i.emitterData, [this.symbol, "_options"], options);
     }
     constructor(options) {
         let _options = options ?? {};

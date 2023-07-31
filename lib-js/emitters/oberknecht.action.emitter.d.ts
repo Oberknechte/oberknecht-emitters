@@ -4,7 +4,8 @@ export declare class oberknechtActionEmitter {
     get symbol(): string;
     defaultdelay: number;
     timeout: number;
-    _options: oberknechtActionEmitterOptions;
+    get _options(): oberknechtActionEmitterOptions;
+    set _options(options: oberknechtActionEmitterOptions);
     num: number;
     constructor(options: oberknechtActionEmitterOptions);
     emit: (eventName: string, args: any, returntype?: number) => any;
