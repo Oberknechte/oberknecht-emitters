@@ -11,7 +11,7 @@ export declare class oberknechtEmitter {
     removeListener: (eventName: string, callback: Function) => void;
     removeAllListeners: (eventName: string) => void;
     getListeners: (eventName: string) => any;
-    emit: (eventName: string | string[], args: any) => void;
+    emit: (eventName: string | string[], ...args: any) => void;
     emitError: (eventName: string | string[], error: Error | Record<string, any> | any) => void;
     destroy: () => void;
 }

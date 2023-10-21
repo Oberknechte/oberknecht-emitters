@@ -54,7 +54,7 @@ class oberknechtEmitter {
     getListeners = (eventName) => {
         return __1.i.emitterData[this.symbol].events[eventName] || [];
     };
-    emit = (eventName, args) => {
+    emit = (eventName, ...args) => {
         let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
         let eventNames = [...eventName_, "_all"];
         eventNames.forEach((a) => {
@@ -65,13 +65,13 @@ class oberknechtEmitter {
                     (withAllNames === true ||
                         ((0, oberknecht_utils_1.extendedTypeof)(withAllNames) === "array" &&
                             withAllNames.includes(a))))
-                    callback([a, ...eventNames.filter((b) => a !== b)], args ?? undefined);
+                    callback([a, ...eventNames.filter((b) => a !== b)], ...args ?? undefined);
                 else if (withNames &&
                     (withNames === true ||
                         ((0, oberknecht_utils_1.extendedTypeof)(withNames) === "array" && withNames.includes(a))))
-                    callback(a, args ?? undefined);
+                    callback(a, ...args ?? undefined);
                 else
-                    callback(args ?? undefined);
+                    callback(...args ?? undefined);
             });
         });
     };
