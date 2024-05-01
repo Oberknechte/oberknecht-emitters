@@ -11,6 +11,6 @@ export declare class oberknechtActionEmitter {
     emit: (eventName: string, args: any, returntype?: number) => any;
     emitresolve: (eventName: string, args: any) => any;
     emitreject: (eventName: string, args: any) => any;
-    once: (eventName: string, fn: Function, args?: any, expectedEventName?: boolean, customDelay?: number, sendAsync?: boolean) => Promise<void>;
+    once: (eventName: string, fn: Function, args?: any, expectedEventName?: boolean | Function, customDelay?: number, sendAsync?: boolean) => Promise<void>;
     next: (sym: string) => void;
 }

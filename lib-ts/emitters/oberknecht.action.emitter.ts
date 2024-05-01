@@ -47,7 +47,14 @@ export class oberknechtActionEmitter {
         e.inQueue &&
         !e.isDone &&
         !e.timedOut &&
-        (e.expectedEventName ?? e.eventName).toUpperCase() === eventName
+        (!e.expectedEventName || typeof e.expectedEventName !== "function"
+          ? (e.expectedEventName ?? e.eventName).toUpperCase() === eventName
+          : e.expectedEventName({
+              response: {
+                eventName: eventName,
+                args: args,
+              },
+            }))
       );
     });
     let event = events[0];
@@ -88,7 +95,7 @@ export class oberknechtActionEmitter {
     eventName: string,
     fn: Function,
     args?: any,
-    expectedEventName?: boolean,
+    expectedEventName?: boolean | Function,
     customDelay?: number,
     sendAsync?: boolean
   ) => {

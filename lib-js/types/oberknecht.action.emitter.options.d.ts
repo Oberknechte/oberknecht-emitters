@@ -1,3 +1,3 @@
-export type oberknechtActionEmitterOptions = {
+export declare type oberknechtActionEmitterOptions = {
     "useExpectedEventNames"?: boolean;
 };
