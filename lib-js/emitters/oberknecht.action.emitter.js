@@ -76,7 +76,7 @@ class oberknechtActionEmitter {
         return new Promise((resolve, reject) => {
             if (this.#alwaysResolve.includes(eventName) || sendAsync) {
                 fn(args);
-                return resolve();
+                return resolve(undefined);
             }
             const itemsym = `${this.num++}`;
             const item = {

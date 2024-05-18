@@ -99,10 +99,10 @@ export class oberknechtActionEmitter {
     customDelay?: number,
     sendAsync?: boolean
   ) => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       if (this.#alwaysResolve.includes(eventName) || sendAsync) {
         fn(args);
-        return resolve();
+        return resolve(undefined);
       }
 
       const itemsym = `${this.num++}`;
