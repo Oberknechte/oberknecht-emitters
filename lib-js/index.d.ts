@@ -1,5 +1,5 @@
 export declare class i {
-    static emitterData: {};
-    static actionEmitterData: {};
-    static queueEmitterData: {};
+    static emitterData: Record<string, any>;
+    static actionEmitterData: Record<string, any>;
+    static queueEmitterData: Record<string, any>;
 }

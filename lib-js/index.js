@@ -7,4 +7,3 @@ class i {
     static queueEmitterData = {};
 }
 exports.i = i;
-;
