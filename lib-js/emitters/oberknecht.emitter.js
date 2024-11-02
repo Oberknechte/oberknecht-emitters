@@ -29,7 +29,7 @@ class oberknechtEmitter {
                 __1.i.emitterData[this.symbol].events[eventName2] = [];
             __1.i.emitterData[this.symbol].events[eventName2].push({
                 cb: callback,
-                returnNames: returnNames ?? this._options.defaultWithNames ?? false,
+                returnNames: returnNames ?? this._options.withAllNames ?? false,
             });
         });
     };
