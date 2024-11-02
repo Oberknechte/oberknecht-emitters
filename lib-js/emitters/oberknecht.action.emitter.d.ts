@@ -1,6 +1,7 @@
 import { oberknechtActionEmitterOptions } from "../types/oberknecht.action.emitter.options";
 export declare class oberknechtActionEmitter {
     #private;
+    readonly _symbol: string;
     get symbol(): string;
     defaultdelay: number;
     timeout: number;

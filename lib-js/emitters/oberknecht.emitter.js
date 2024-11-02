@@ -5,9 +5,9 @@ const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
 let symNum = 0;
 class oberknechtEmitter {
-    #symbol = `oberknechtEmitter-${symNum++}`;
+    _symbol = `oberknechtEmitter-${symNum++}`;
     get symbol() {
-        return this.#symbol;
+        return this._symbol;
     }
     get _options() {
         return (0, oberknecht_utils_1.getKeyFromObject)(__1.i.emitterData, [this.symbol, "_options"]) ?? {};

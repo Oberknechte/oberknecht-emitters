@@ -2,9 +2,9 @@ import { i } from "..";
 let clientSymNum = 0;
 
 export class oberknechtQueueEmitter {
-  readonly #symbol: string = `oberknechtQueueEmitter-${clientSymNum++}`;
+  readonly _symbol: string = `oberknechtQueueEmitter-${clientSymNum++}`;
   get symbol() {
-    return this.#symbol;
+    return this._symbol;
   }
   
   get events() {

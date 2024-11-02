@@ -1,5 +1,5 @@
 export declare class oberknechtQueueEmitter {
-    #private;
+    readonly _symbol: string;
     get symbol(): string;
     get events(): any;
     constructor();

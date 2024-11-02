@@ -1,6 +1,6 @@
 import { oberknechtEmitterOptions } from "../types/oberknecht.emitter.options";
 export declare class oberknechtEmitter {
-    #private;
+    readonly _symbol: string;
     get symbol(): string;
     get _options(): oberknechtEmitterOptions;
     set _options(options: oberknechtEmitterOptions);

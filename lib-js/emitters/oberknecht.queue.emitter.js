@@ -4,9 +4,9 @@ exports.oberknechtQueueEmitter = void 0;
 const __1 = require("..");
 let clientSymNum = 0;
 class oberknechtQueueEmitter {
-    #symbol = `oberknechtQueueEmitter-${clientSymNum++}`;
+    _symbol = `oberknechtQueueEmitter-${clientSymNum++}`;
     get symbol() {
-        return this.#symbol;
+        return this._symbol;
     }
     get events() {
         return __1.i.queueEmitterData[this.symbol];

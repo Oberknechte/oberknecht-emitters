@@ -10,9 +10,9 @@ import { oberknechtEmitterOptions } from "../types/oberknecht.emitter.options";
 let symNum = 0;
 
 export class oberknechtEmitter {
-  readonly #symbol: string = `oberknechtEmitter-${symNum++}`;
+  readonly _symbol: string = `oberknechtEmitter-${symNum++}`;
   get symbol() {
-    return this.#symbol;
+    return this._symbol;
   }
 
   get _options(): oberknechtEmitterOptions {

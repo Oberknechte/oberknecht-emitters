@@ -5,9 +5,9 @@ const oberknecht_utils_1 = require("oberknecht-utils");
 const __1 = require("..");
 let symNum = 0;
 class oberknechtActionEmitter {
-    #symbol = `oberknechtActionEmitter-${symNum++}`;
+    _symbol = `oberknechtActionEmitter-${symNum++}`;
     get symbol() {
-        return this.#symbol;
+        return this._symbol;
     }
     defaultdelay = 300;
     timeout = 3000;

@@ -8,9 +8,9 @@ import { i } from "..";
 let symNum = 0;
 
 export class oberknechtActionEmitter {
-  readonly #symbol: string = `oberknechtActionEmitter-${symNum++}`;
+  readonly _symbol: string = `oberknechtActionEmitter-${symNum++}`;
   get symbol() {
-    return this.#symbol;
+    return this._symbol;
   }
 
   defaultdelay = 300;
