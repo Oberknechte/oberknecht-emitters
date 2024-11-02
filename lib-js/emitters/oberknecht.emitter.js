@@ -22,16 +22,19 @@ class oberknechtEmitter {
             _options: _options,
         };
     }
-    on = (eventName, callback) => {
+    on = (eventName, callback, returnNames) => {
         let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
         eventName_.forEach((eventName2) => {
             if (!__1.i.emitterData[this.symbol].events[eventName2])
                 __1.i.emitterData[this.symbol].events[eventName2] = [];
-            __1.i.emitterData[this.symbol].events[eventName2].push(callback);
+            __1.i.emitterData[this.symbol].events[eventName2].push({
+                cb: callback,
+                returnNames: returnNames ?? this._options.defaultWithNames ?? false,
+            });
         });
     };
     addListener = this.on;
-    once = (eventName, callback) => {
+    once = (eventName, callback, returnNames) => {
         let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
         const onceCallback = (args) => {
             eventName_.forEach((a) => {
@@ -39,7 +42,7 @@ class oberknechtEmitter {
             });
             callback(args);
         };
-        this.on(eventName_, onceCallback);
+        this.on(eventName_, onceCallback, returnNames);
     };
     removeListener = (eventName, callback) => {
         if (!__1.i.emitterData[this.symbol].events[eventName])
@@ -52,15 +55,19 @@ class oberknechtEmitter {
         delete __1.i.emitterData[this.symbol].events[eventName];
     };
     getListeners = (eventName) => {
+        return (__1.i.emitterData[this.symbol].events[eventName] || []).map(a => a.cb);
+    };
+    getListenersWithNames = (eventName) => {
         return __1.i.emitterData[this.symbol].events[eventName] || [];
     };
     emit = (eventName, ...args) => {
         let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
         let eventNames = [...eventName_, "_all"];
         eventNames.forEach((a) => {
-            this.getListeners(a).forEach((callback) => {
-                let withNames = this._options.withNames;
-                let withAllNames = this._options.withAllNames;
+            this.getListenersWithNames(a).forEach((listener) => {
+                let callback = listener.cb;
+                let withNames = listener.returnNames ?? this._options.withNames;
+                let withAllNames = listener.returnNames ?? this._options.withAllNames;
                 if (withAllNames &&
                     (withAllNames === true ||
                         ((0, oberknecht_utils_1.extendedTypeof)(withAllNames) === "array" &&
