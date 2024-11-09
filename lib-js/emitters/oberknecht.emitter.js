@@ -22,7 +22,7 @@ class oberknechtEmitter {
             _options: _options,
         };
     }
-    on = (eventName, callback, returnNames) => {
+    on = (eventName, callback, returnNames, clientNames) => {
         let eventName_ = (0, oberknecht_utils_1.convertToArray)(eventName);
         eventName_.forEach((eventName2) => {
             if (!__1.i.emitterData[this.symbol].events[eventName2])
@@ -30,6 +30,7 @@ class oberknechtEmitter {
             __1.i.emitterData[this.symbol].events[eventName2].push({
                 cb: callback,
                 returnNames: returnNames ?? this._options.withAllNames ?? false,
+                clientNames: clientNames,
             });
         });
     };
@@ -47,7 +48,20 @@ class oberknechtEmitter {
     removeListener = (eventName, callback) => {
         if (!__1.i.emitterData[this.symbol].events[eventName])
             return;
-        __1.i.emitterData[this.symbol].events[eventName] = __1.i.emitterData[this.symbol].events[eventName].filter((cb) => cb !== callback);
+        __1.i.emitterData[this.symbol].events[eventName] = __1.i.emitterData[this.symbol].events[eventName].filter((dat) => dat.cb !== callback);
+    };
+    removeClientListeners = (clientName, eventName) => {
+        if (!clientName)
+            return;
+        Object.keys(__1.i.emitterData[this.symbol].events).forEach((event) => {
+            __1.i.emitterData[this.symbol].events[event].forEach((dat) => {
+                if (dat.clientNames &&
+                    dat.clientNames.includes(clientName) &&
+                    (!eventName || eventName.includes(event))) {
+                    this.removeListener(event, dat.cb);
+                }
+            });
+        });
     };
     removeAllListeners = (eventName) => {
         if (!__1.i.emitterData[this.symbol].events[eventName])
@@ -55,7 +69,7 @@ class oberknechtEmitter {
         delete __1.i.emitterData[this.symbol].events[eventName];
     };
     getListeners = (eventName) => {
-        return (__1.i.emitterData[this.symbol].events[eventName] || []).map(a => a.cb);
+        return (__1.i.emitterData[this.symbol].events[eventName] || []).map((a) => a.cb);
     };
     getListenersWithNames = (eventName) => {
         return __1.i.emitterData[this.symbol].events[eventName] || [];
@@ -72,13 +86,13 @@ class oberknechtEmitter {
                     (withAllNames === true ||
                         ((0, oberknecht_utils_1.extendedTypeof)(withAllNames) === "array" &&
                             withAllNames.includes(a))))
-                    callback([a, ...eventNames.filter((b) => a !== b)], ...args ?? undefined);
+                    callback([a, ...eventNames.filter((b) => a !== b)], ...(args ?? undefined));
                 else if (withNames &&
                     (withNames === true ||
                         ((0, oberknecht_utils_1.extendedTypeof)(withNames) === "array" && withNames.includes(a))))
-                    callback(a, ...args ?? undefined);
+                    callback(a, ...(args ?? undefined));
                 else
-                    callback(...args ?? undefined);
+                    callback(...(args ?? undefined));
             });
         });
     };

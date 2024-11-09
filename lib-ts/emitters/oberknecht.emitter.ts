@@ -9,6 +9,12 @@ import { i } from "..";
 import { oberknechtEmitterOptions } from "../types/oberknecht.emitter.options";
 let symNum = 0;
 
+type eventDataType = {
+  cb: Function;
+  returnNames: string[] | boolean;
+  clientNames?: string[];
+};
+
 export class oberknechtEmitter {
   readonly _symbol: string = `oberknechtEmitter-${symNum++}`;
   get symbol() {
@@ -31,7 +37,12 @@ export class oberknechtEmitter {
     };
   }
 
-  on = (eventName: string | string[], callback: Function, returnNames?: boolean) => {
+  on = (
+    eventName: string | string[],
+    callback: Function,
+    returnNames?: boolean,
+    clientNames?: string[]
+  ) => {
     let eventName_ = convertToArray(eventName);
 
     eventName_.forEach((eventName2) => {
@@ -41,13 +52,18 @@ export class oberknechtEmitter {
       i.emitterData[this.symbol].events[eventName2].push({
         cb: callback,
         returnNames: returnNames ?? this._options.withAllNames ?? false,
+        clientNames: clientNames,
       });
     });
   };
 
   addListener = this.on;
 
-  once = (eventName: string | string[], callback: Function, returnNames?: boolean) => {
+  once = (
+    eventName: string | string[],
+    callback: Function,
+    returnNames?: boolean
+  ) => {
     let eventName_ = convertToArray(eventName);
 
     const onceCallback = (args) => {
@@ -66,7 +82,23 @@ export class oberknechtEmitter {
 
     i.emitterData[this.symbol].events[eventName] = i.emitterData[
       this.symbol
-    ].events[eventName].filter((cb: Function) => cb !== callback);
+    ].events[eventName].filter((dat: eventDataType) => dat.cb !== callback);
+  };
+
+  removeClientListeners = (clientName: string, eventName?: string[]) => {
+    if (!clientName) return;
+
+    Object.keys(i.emitterData[this.symbol].events).forEach((event) => {
+      i.emitterData[this.symbol].events[event].forEach((dat: eventDataType) => {
+        if (
+          dat.clientNames &&
+          dat.clientNames.includes(clientName) &&
+          (!eventName || eventName.includes(event))
+        ) {
+          this.removeListener(event, dat.cb);
+        }
+      });
+    });
   };
 
   removeAllListeners = (eventName: string) => {
@@ -76,9 +108,11 @@ export class oberknechtEmitter {
   };
 
   getListeners = (eventName: string) => {
-    return (i.emitterData[this.symbol].events[eventName] || []).map(a => a.cb);
+    return (i.emitterData[this.symbol].events[eventName] || []).map(
+      (a) => a.cb
+    );
   };
-  
+
   getListenersWithNames = (eventName: string) => {
     return i.emitterData[this.symbol].events[eventName] || [];
   };
@@ -102,15 +136,15 @@ export class oberknechtEmitter {
         )
           callback(
             [a, ...eventNames.filter((b) => a !== b)],
-            ...args ?? undefined
+            ...(args ?? undefined)
           );
         else if (
           withNames &&
           (withNames === true ||
             (extendedTypeof(withNames) === "array" && withNames.includes(a)))
         )
-          callback(a, ...args ?? undefined);
-        else callback(...args ?? undefined);
+          callback(a, ...(args ?? undefined));
+        else callback(...(args ?? undefined));
       });
     });
   };

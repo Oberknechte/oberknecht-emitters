@@ -5,10 +5,11 @@ export declare class oberknechtEmitter {
     get _options(): oberknechtEmitterOptions;
     set _options(options: oberknechtEmitterOptions);
     constructor(options?: oberknechtEmitterOptions);
-    on: (eventName: string | string[], callback: Function, returnNames?: boolean) => void;
-    addListener: (eventName: string | string[], callback: Function, returnNames?: boolean) => void;
+    on: (eventName: string | string[], callback: Function, returnNames?: boolean, clientNames?: string[]) => void;
+    addListener: (eventName: string | string[], callback: Function, returnNames?: boolean, clientNames?: string[]) => void;
     once: (eventName: string | string[], callback: Function, returnNames?: boolean) => void;
     removeListener: (eventName: string, callback: Function) => void;
+    removeClientListeners: (clientName: string, eventName?: string[]) => void;
     removeAllListeners: (eventName: string) => void;
     getListeners: (eventName: string) => any;
     getListenersWithNames: (eventName: string) => any;
