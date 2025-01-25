@@ -104,9 +104,7 @@ class oberknechtEmitter {
                 this.getListeners("unhandledRejection").length === 0) {
                 // process.emitWarning((error?.error?.message ?? error.error ?? error?.message ?? error));
             }
-            this.emit(["error"].concat(eventName), error instanceof Error
-                ? Error("Oida", { cause: error })
-                : Error((0, oberknecht_utils_1.returnErr)(error)));
+            this.emit(["error"].concat(eventName), error instanceof Error ? error : Error((0, oberknecht_utils_1.returnErr)(error)));
         }
         catch (e) {
             console.error(Error(`Oida 2`, { cause: error }));

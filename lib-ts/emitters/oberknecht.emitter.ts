@@ -41,7 +41,7 @@ export class oberknechtEmitter {
     eventName: string | string[],
     callback: Function,
     returnNames?: boolean,
-    clientNames?: string[]
+    clientNames?: string | string[]
   ) => {
     let eventName_ = convertToArray(eventName);
 
@@ -163,9 +163,7 @@ export class oberknechtEmitter {
       }
       this.emit(
         ["error"].concat(eventName),
-        error instanceof Error
-          ? Error("Oida", { cause: error })
-          : Error(returnErr(error))
+        error instanceof Error ? error : Error(returnErr(error))
       );
     } catch (e) {
       console.error(Error(`Oida 2`, { cause: error }));
